@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.djy.dao.UserDao">
+    <!--修改用户信息-->
+    <update id="updateUser" parameterType="com.djy.po.User"  >
+        update user set username = #{username}, password = #{password}, telephone = #{telephone}, email = #{email}, qq = #{qq}, wechat = #{wechat}, head = #{head}, grade = #{grade} where id=#{id}
+    </update>
+
+    <!--将莫个或者多个用户修改为待删除用户-->
+    <update id="updateReadyDelUser" parameterType="list">
+        update user set del_flag = 1 where id in
+        <foreach collection="list" item="ids" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+    </update>
+    <!--彻底删除用户信息-->
+    <delete id="deleteUserByIds">
+        delete from user where id in
+        <foreach collection="list" item="ids" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+    </delete>
+
+    <!--查询所有用户信息-->
+    <select id="queryUserAll" resultType="com.djy.po.User" parameterType="hashmap">
+        select * from user
+            <where>
+                <if test="_parameter.del_flag!=null">
+                    and del_flag = #{del_flag}
+                </if>
+                <if test="_parameter.username!=nuu">
+                    and username like concat( '%' ,#{username}, '%' )
+                </if>
+                
+                
+            </where>
+    </select>
+
+    <!--根据id查询用户信息-->
+    <select id="queryUserByID" resultType="com.djy.po.User" parameterType="int">
+        select * from user where id=#{id}
+    </select>
+
+    <!--添加新用户-->
+    <insert id="addUser" parameterType="com.djy.po.User" >
+        insert into user(username, password, telephone, email, qq, wechat, head, grade, del_flag, updateTime, creatTime) VALUES (#{username}, #{password}, #{telephone}, #{email}, #{qq}, #{wechat}, #{head}, #{grade}, #{del_flag}, #{updateTime}, #{creatTime}) where id=#{id}
+    </insert>
+
+
+</mapper>
