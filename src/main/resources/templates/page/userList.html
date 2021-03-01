@@ -32,6 +32,7 @@
             <div class="layui-btn-container">
                 <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加 </button>
                 <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除 </button>
+                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="blocked"> 封禁 </button>
             </div>
         </script>
 
@@ -40,6 +41,7 @@
         <script type="text/html" id="currentTableBar">
             <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
             <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
+            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="blocked"> 封禁 </a>
         </script>
 
     </div>
@@ -53,21 +55,42 @@
             layer = layui.layer;
 
         //发送请求转移到待删区域
-        function updateReadyDeleteUserByIds(ids,index){
+        function updateReadyDeleteUserByIds(ids){
             $.ajax({
                 url: "updateReadyDelUserSubmit",
                 type: "POST",
                 data: {'ids': ids},
-                success: function () {
-                    layer.close(index);
-                    layer.msg('转移到待删除成功', {
-                        icon: 6,
-                        time: 500
+                success:function (){
+                    layer.msg('删除成功',{
+                        icon:6,
+                        time:500
+                    },function (){
+                        //刷新页面
+                        window.location.reload();
                     });
-                    window.location.reload();
                 },
                 error:function (){
                     layer.msg("转移失败");
+                }
+            });
+        }
+        //封禁用户
+        function blockedUserById(ids){
+            $.ajax({
+                url: "blockedUserById",
+                type: "POST",
+                data: {'ids': ids},
+                success:function (){
+                    layer.msg('封禁成功',{
+                        icon:6,
+                        time:500
+                    },function (){
+                        //刷新页面
+                        window.location.reload();
+                    });
+                },
+                error:function (){
+                    layer.msg("封禁失败");
                 }
             });
         }
@@ -116,7 +139,7 @@
                 },
                 {field: 'updateTime', width: 135, title: '修改时间', sort: true},
                 {field: 'creatTime', width: 135, title: '创建时间', sort: true},
-                {title: '操作', width: 150, toolbar: '#currentTableBar', align: "center",fixed:'right'}
+                {title: '操作', width: 200, toolbar: '#currentTableBar', align: "center",fixed:'right'}
             ]],
             limits: [10, 15, 20, 25, 50, 100],
             limit: 15,
@@ -169,8 +192,20 @@
                 }else{
                     //获取ids
                     var ids = getCheckId(data);
-                    layer.confirm('确认移动到待删区吗？',function (index){
-                        updateReadyDeleteUserByIds(ids,index);
+                    layer.confirm('确认移动到待删区吗？',function (){
+                        updateReadyDeleteUserByIds(ids);
+                    });
+                }
+            }else if (obj.event === 'blocked'){//监听封禁操作
+                var checkStatus = table.checkStatus(obj.config.id);
+                var data = checkStatus.data;
+                if(data.length==0){
+                    layer.msg("请选择您要封禁的内容");
+                }else{
+                    //获取ids
+                    var ids = getCheckId(data);
+                    layer.confirm('确认封禁吗？',function (){
+                       blockedUserById(ids);
                     });
                 }
             }
@@ -195,8 +230,12 @@
                 });
                 return false;
             } else if (obj.event === 'delete') {
-                layer.confirm('确认转移到待删除区', function (index) {
-                    updateReadyDeleteUserByIds(data.id,index)
+                layer.confirm('确认转移到待删除区', function () {
+                    updateReadyDeleteUserByIds(data.id)
+                });
+            }else if (obj.event === 'blocked') {
+                layer.confirm('确认要封禁吗', function () {
+                    blockedUserById(data.id);
                 });
             }
         });

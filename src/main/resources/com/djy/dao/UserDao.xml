@@ -23,6 +23,13 @@
             #{ids}
         </foreach>
     </update>
+    <!--封禁用户-->
+    <update id="blockedUserById" parameterType="list">
+        update user set blocked = 1 where id in
+        <foreach collection="list" item="ids" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+    </update>
     <!--彻底删除用户信息-->
     <delete id="deleteUserByIds">
         delete from user where id in

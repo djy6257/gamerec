@@ -33,8 +33,6 @@ public class UserController {
         map.put("telephone",telephone);
 
         List<User> list = userService.queryUserAll(map);
-        System.out.println(list);
-
         //创建返回值对象
         JsonObject object = new JsonObject();
         object.setCode(0);
@@ -92,6 +90,19 @@ public class UserController {
     public R recoverUserByIds(String ids){
         List list = Arrays.asList(ids.split(","));
         userService.recoverUserByIds(list);
+        return R.ok();
+    }
+
+    /**
+     * 封禁用户
+     * @param ids 全部用户id
+     * @return 对象（@ResponseBody)
+     */
+    @ResponseBody
+    @RequestMapping("blockedUserById")
+    public R blockedUserById(String ids){
+        List list = Arrays.asList(ids.split(","));
+        userService.blockedUserById(list);
         return R.ok();
     }
 
