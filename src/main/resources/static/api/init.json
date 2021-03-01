@@ -29,7 +29,7 @@
         },
         {
           "title": "封禁用户",
-          "href": "page/bannedUser.html",
+          "href": "blockedUser",
           "icon": "fa fa-gears",
           "target": "_self"
         }

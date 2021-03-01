@@ -57,4 +57,10 @@ public interface UserService {
      * @param list
      */
     void blockedUserById(List list);
+
+    /**
+     * 解除封禁用户
+     * @param list
+     */
+    void recoverBlockedUserById(List list);
 }

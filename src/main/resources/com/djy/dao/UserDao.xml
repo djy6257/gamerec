@@ -30,6 +30,13 @@
             #{ids}
         </foreach>
     </update>
+    <!--解除用户封禁-->
+    <update id="recoverBlockedUserById">
+        update user set blocked = 0 where id in
+        <foreach collection="list" item="ids" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+    </update>
     <!--彻底删除用户信息-->
     <delete id="deleteUserByIds">
         delete from user where id in
@@ -44,6 +51,9 @@
             <where>
                 <if test="_parameter.del_flag!=null">
                     and del_flag = #{del_flag}
+                </if>
+                <if test="_parameter.blocked!=null">
+                    and blocked = #{blocked}
                 </if>
                 <if test="_parameter.username!=null">
                     and username like concat( '%' ,#{username}, '%' )

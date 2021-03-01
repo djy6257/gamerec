@@ -26,12 +26,12 @@ public class UserController {
      */
     @RequestMapping("user/userAll")
     @ResponseBody
-    public JsonObject queryUserAll(String del_flag,String username,String telephone) {
+    public JsonObject queryUserAll(String del_flag,String username,String telephone,String blocked) {
         Map<String,String> map = new HashMap<>();
         map.put("del_flag", del_flag);
         map.put("username", username);
         map.put("telephone",telephone);
-
+        map.put("blocked", blocked);
         List<User> list = userService.queryUserAll(map);
         //创建返回值对象
         JsonObject object = new JsonObject();
@@ -106,6 +106,19 @@ public class UserController {
         return R.ok();
     }
 
+    /**
+     * 解除用户封禁
+     * @param ids
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("recoverBlockedUserById")
+    public R recoverBlockedUserById(String ids){
+        List list = Arrays.asList(ids.split(","));
+        userService.recoverBlockedUserById(list);
+        return R.ok();
+    }
+
 
     /**
      * 根据id彻底删除用户
@@ -143,5 +156,8 @@ public class UserController {
 
     @RequestMapping("readyDelUser")
     public String readyDelUser(){return "page/readyDelUser";}
+
+    @RequestMapping("blockedUser")
+    public String blockUser(){return "page/blockedUser";}
 
 }

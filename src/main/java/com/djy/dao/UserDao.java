@@ -59,4 +59,10 @@ public interface UserDao {
      * @param list
      */
     void blockedUserById(List list);
+
+    /**
+     * 解除用户封禁
+     * @param list
+     */
+    void recoverBlockedUserById(List list);
 }

@@ -91,4 +91,13 @@ public class UserServiceImpl implements UserService {
     public void blockedUserById(List list) {
         userDao.blockedUserById(list);
     }
+
+    /**
+     * 解除用户封禁
+     * @param list
+     */
+    @Override
+    public void recoverBlockedUserById(List list) {
+        userDao.recoverBlockedUserById(list);
+    }
 }
