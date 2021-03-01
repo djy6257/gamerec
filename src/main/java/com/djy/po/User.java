@@ -18,6 +18,7 @@ public class User implements Serializable {
      * wechat
      * head
      * del_flag
+     * blocked
      * updateTime
      * creatTime
      */
@@ -32,6 +33,7 @@ public class User implements Serializable {
     private String head;
     private Integer grade;
     private Integer del_flag;
+    private Integer blocked;
     private Date creatTime;
     private Date updateTime;
 }
