@@ -20,11 +20,17 @@
             <div class="layui-inline">
                 <input class="layui-input" name="username" id="username" autocomplete="off">
             </div>
+            <span>&emsp;</span>
+            手机号：
+            <div class="layui-inline">
+                <input class="layui-input" name="telephone" id="telephone" autocomplete="off">
+            </div>
             <div  id="search" class="layui-btn" >搜索</div>
         </div>
 
         <script type="text/html" id="toolbarDemo">
             <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="recover"> 恢复用户 </button>
                 <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 彻底删除 </button>
             </div>
         </script>
@@ -32,6 +38,7 @@
         <table  class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
 
         <script type="text/html" id="currentTableBar">
+            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="recover">恢复用户</a>
             <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">彻底删除</a>
         </script>
 
@@ -45,24 +52,47 @@
             table = layui.table,
             layer = layui.layer;
 
-        //发送请求转移到待删区域
-        function deleteUserByIds(ids,index){
+        //发送请求彻底删除
+        function deleteUserByIds(ids){
             $.ajax({
                 url: "deleteUserByIds",
                 type: "POST",
                 data: {'ids': ids},
-                success: function () {
-                    layer.close(index);
-                    layer.msg('转移到待删除成功', {
-                        icon: 6,
-                        time: 500
+                success:function (){
+                    layer.msg('删除成功',{
+                        icon:6,
+                        time:500
+                    },function (){
+                        //刷新页面
+                        window.location.reload();
                     });
-                    window.location.reload();
                 },
                 error:function (){
-                    layer.msg("转移失败");
+                    layer.msg("删除失败");
                 }
             });
+        }
+
+        //发送请求恢复数据
+        function recoverUserByIds(ids){
+            $.ajax({
+                url: "recoverUserByIds",
+                type: "POST",
+                data: {'ids': ids},
+                success:function (){
+                    layer.msg('恢复成功',{
+                        icon:6,
+                        time:500
+                    },function (){
+                        //刷新页面
+                        window.location.reload();
+                    });
+                },
+                error:function (){
+                    layer.msg("恢复失败");
+                }
+            });
+
         }
 
         //初始化表格
@@ -98,7 +128,7 @@
                 },
                 {field: 'updateTime', width: 135, title: '修改时间', sort: true},
                 {field: 'creatTime', width: 135, title: '创建时间', sort: true},
-                {title: '操作', width: 150, toolbar: '#currentTableBar', align: "center",fixed:'right'}
+                {title: '操作', width: 300, toolbar: '#currentTableBar', align: "center",fixed:'right'}
             ]],
             limits: [10, 15, 20, 25, 50, 100],
             limit: 15,
@@ -112,10 +142,12 @@
         // 监听搜索操作
         $('#search').on('click', function(){
             var usernameID = $('#username');	//得到搜索框里已输入的数据
+            var telephoneID = $('#telephone');
             //执行重载
             table.reload('testReload', {
                 where: { //设定异步数据接口的额外参数，任意设
-                    username:usernameID.val()
+                    username:usernameID.val(),
+                    telephone:telephoneID.val()
                 }
                 ,page: {
                     curr: 1 //重新从第 1 页开始
@@ -128,7 +160,12 @@
          * toolbar监听事件
          */
         table.on('toolbar(currentTableFilter)', function (obj) {
-           if (obj.event === 'delete') {  // 监听删除操作
+            if(obj.event === 'recover'){//监听恢复事件
+                var checkStatus = table.checkStatus(obj.config.id);
+                var data = checkStatus.data;
+                var ids = getCheckId(data);
+                recoverUserByIds(ids);
+            } else if (obj.event === 'delete') {  // 监听删除操作
                 var checkStatus = table.checkStatus(obj.config.id);
                 var data = checkStatus.data;
                 if(data.length==0){
@@ -137,7 +174,7 @@
                     //获取ids
                     var ids = getCheckId(data);
                     layer.confirm('确定彻底删除吗？此操作不可逆',function (index){
-                        deleteUserByIds(ids,index);
+                        deleteUserByIds(ids);
                     });
                 }
             }
@@ -146,9 +183,11 @@
         //监听单行表格
         table.on('tool(currentTableFilter)', function (obj) {
             var data = obj.data;
-            if (obj.event === 'delete') {
+            if(obj.event === 'recover'){//监听恢复事件
+                recoverUserByIds(data.id);
+            } else if (obj.event === 'delete') {
                 layer.confirm('确认彻底删除吗？此操作不可逆', function (index) {
-                    deleteUserByIds(data.id,index)
+                    deleteUserByIds(data.id)
                 });
             }
         });

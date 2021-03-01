@@ -15,6 +15,14 @@
             #{ids}
         </foreach>
     </update>
+
+    <!--发送请求恢复数据-->
+    <update id="recoverUserByIds"  parameterType="list">
+        update user set del_flag = 0 where id in
+        <foreach collection="list" item="ids" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+    </update>
     <!--彻底删除用户信息-->
     <delete id="deleteUserByIds">
         delete from user where id in
@@ -30,11 +38,13 @@
                 <if test="_parameter.del_flag!=null">
                     and del_flag = #{del_flag}
                 </if>
-                <if test="_parameter.username!=nuu">
+                <if test="_parameter.username!=null">
                     and username like concat( '%' ,#{username}, '%' )
                 </if>
-                
-                
+                <if test="_parameter.telephone!=null">
+                    and telephone like concat( '%' ,#{telephone}, '%' )
+                </if>
+
             </where>
     </select>
 
@@ -45,7 +55,7 @@
 
     <!--添加新用户-->
     <insert id="addUser" parameterType="com.djy.po.User" >
-        insert into user(username, password, telephone, email, qq, wechat, head, grade, del_flag, updateTime, creatTime) VALUES (#{username}, #{password}, #{telephone}, #{email}, #{qq}, #{wechat}, #{head}, #{grade}, #{del_flag}, #{updateTime}, #{creatTime}) where id=#{id}
+        insert into user(username, password, telephone, email, qq, wechat, head, grade, updateTime, creatTime) VALUES (#{username}, #{password}, #{telephone}, #{email}, #{qq}, #{wechat}, #{head}, #{grade}, #{updateTime}, #{creatTime})
     </insert>
 
 

@@ -82,30 +82,27 @@
         form.on('submit(saveBtn)', function (data) {
             var index = layer.confirm("确认提交", function(index) {
                 //向后台发送数据
-                //console.log(data.field);
+                console.log(data.field);
                 $.ajax({
                     url:"addUserSubmit",
                     type:"POST",
                     data:data.field,
-                    success:function (result){
-                        //把json转换成String
-                        if(result.code==200){
-                            layer.msg('添加成功')
-                        }else {
-                            layer.msg('添加失败')
-                        }
+                    success:function (){
+                        layer.msg('添加成功',{
+                            icon:6,
+                            time:500
+                        },function (){
+                            //刷新页面
+                            parent.window.location.reload();
+                            var iframeIndex = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(iframeIndex);
+                        });
+                    },
+                    error:function (){
+                        layer.msg("添加失败");
                     }
-                })
-
-
-                // 关闭弹出层
-                layer.close(index);
-
-                var iframeIndex = parent.layer.getFrameIndex(window.name);
-                parent.layer.close(iframeIndex);
-
+                });
             });
-
             return false;
         });
 

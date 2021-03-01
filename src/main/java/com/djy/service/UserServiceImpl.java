@@ -30,6 +30,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void addUser(User user) {
+        user.setHead("xxxx");
         user.setCreatTime(new Date());
         user.setUpdateTime(new Date());
         userDao.addUser(user);
@@ -71,5 +72,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUserByIds(List<Integer> ids) {
         userDao.deleteUserByIds(ids);
+    }
+
+    /**
+     * 发送请求恢复数据
+     * @param list
+     */
+    @Override
+    public void recoverUserByIds(List list) {
+        userDao.recoverUserByIds(list);
     }
 }

@@ -48,4 +48,9 @@ public interface UserDao {
      */
     void deleteUserByIds(List<Integer> ids);
 
+    /**
+     * 发送请求恢复数据
+     * @param list
+     */
+    void recoverUserByIds(List list);
 }

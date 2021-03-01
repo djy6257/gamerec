@@ -26,11 +26,15 @@ public class UserController {
      */
     @RequestMapping("user/userAll")
     @ResponseBody
-    public JsonObject queryUserAll(String del_flag,String username) {
+    public JsonObject queryUserAll(String del_flag,String username,String telephone) {
         Map<String,String> map = new HashMap<>();
         map.put("del_flag", del_flag);
         map.put("username", username);
+        map.put("telephone",telephone);
+
         List<User> list = userService.queryUserAll(map);
+        System.out.println(list);
+
         //创建返回值对象
         JsonObject object = new JsonObject();
         object.setCode(0);
@@ -77,6 +81,20 @@ public class UserController {
         userService.updateReadyDelUser(list);
         return R.ok();
     }
+
+    /**
+     * 发送请求恢复数据
+     * @param ids
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("recoverUserByIds")
+    public R recoverUserByIds(String ids){
+        List list = Arrays.asList(ids.split(","));
+        userService.recoverUserByIds(list);
+        return R.ok();
+    }
+
 
     /**
      * 根据id彻底删除用户

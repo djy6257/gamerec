@@ -46,4 +46,9 @@ public interface UserService {
      */
     void deleteUserByIds(List<Integer> ids);
 
+    /**
+     * 恢复用户数据
+     * @param list
+     */
+    void recoverUserByIds(List list);
 }
