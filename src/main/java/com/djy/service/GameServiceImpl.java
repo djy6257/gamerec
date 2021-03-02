@@ -94,4 +94,13 @@ public class GameServiceImpl implements GameService {
     public void checkPass(List list) {
         gameDao.checkPass(list);
     }
+
+    /**
+     * 查询未在删除状态下的游戏总数
+     * @return
+     */
+    @Override
+    public Integer queryCount(Integer check) {
+        return gameDao.queryCount(check);
+    }
 }

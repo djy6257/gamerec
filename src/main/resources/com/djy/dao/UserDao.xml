@@ -70,6 +70,16 @@
         select * from user where id=#{id}
     </select>
 
+    <!--查询未删除状态的总人数-->
+    <select id="queryCount" resultType="Integer">
+        select count(*) from user where del_flag = 0
+    </select>
+
+    <!--登录验证-->
+    <select id="loginVerify" resultType="com.djy.po.User">
+        select * from user where username = #{username} and password= #{password}
+    </select>
+
     <!--添加新用户-->
     <insert id="addUser" parameterType="com.djy.po.User" >
         insert into user(username, password, telephone, email, qq, wechat, head, grade, updateTime, creatTime) VALUES (#{username}, #{password}, #{telephone}, #{email}, #{qq}, #{wechat}, #{head}, #{grade}, #{updateTime}, #{creatTime})

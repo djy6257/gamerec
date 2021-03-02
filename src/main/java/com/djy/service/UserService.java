@@ -63,4 +63,18 @@ public interface UserService {
      * @param list
      */
     void recoverBlockedUserById(List list);
+
+    /**
+     * 查询处于为删除状态的总人数
+     * @return
+     */
+    Integer queryCount();
+
+    /**
+     * 登录验证
+     * @param username
+     * @param password
+     * @return
+     */
+    User loginVerify(String username,String password);
 }

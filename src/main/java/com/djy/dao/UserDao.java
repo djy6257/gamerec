@@ -1,6 +1,7 @@
 package com.djy.dao;
 
 import com.djy.po.User;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -65,4 +66,18 @@ public interface UserDao {
      * @param list
      */
     void recoverBlockedUserById(List list);
+
+    /**
+     * 查询未删除状态的总人数
+     * @return
+     */
+    Integer queryCount();
+
+    /**
+     * 验证登录
+     * @param username
+     * @param password
+     * @return
+     */
+    User loginVerify(@Param("username") String username,@Param("password") String password);
 }

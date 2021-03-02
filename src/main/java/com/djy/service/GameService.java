@@ -55,4 +55,10 @@ public interface GameService {
      * @param list
      */
     void checkPass(List list);
+
+    /**
+     * 查询未在删除状态的总游戏数
+     * @return
+     */
+    Integer queryCount(Integer check);
 }

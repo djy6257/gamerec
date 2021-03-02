@@ -100,4 +100,18 @@ public class UserServiceImpl implements UserService {
     public void recoverBlockedUserById(List list) {
         userDao.recoverBlockedUserById(list);
     }
+
+    /**
+     * 查询处于未删除状态的总人数
+     * @return
+     */
+    @Override
+    public Integer queryCount() {
+        return userDao.queryCount();
+    }
+
+    @Override
+    public User loginVerify(String username, String password) {
+        return userDao.loginVerify(username, password);
+    }
 }

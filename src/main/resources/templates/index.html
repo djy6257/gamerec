@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ch" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <title>网络游戏推荐系统</title>
@@ -58,7 +58,7 @@
                     <a href="javascript:;" data-check-screen="full"><i class="fa fa-arrows-alt"></i></a>
                 </li>
                 <li class="layui-nav-item layuimini-setting">
-                    <a href="javascript:;">admin</a>
+                    <a href="javascript:;" th:text="${session.user.getUsername()}">管理员</a>
                     <dl class="layui-nav-child">
                         <dd>
                             <a href="javascript:;" layuimini-content-href="page/user-setting.html" data-title="基本资料" data-icon="fa fa-gears">基本资料<span class="layui-badge-dot"></span></a>
@@ -159,7 +159,7 @@
 
         $('.login-out').on("click", function () {
             layer.msg('退出登录成功', function () {
-                window.location = 'page/login-1.html';
+                window.location = 'page/login.html';
             });
         });
     });

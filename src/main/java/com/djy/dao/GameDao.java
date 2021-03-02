@@ -58,4 +58,10 @@ public interface GameDao {
      * @param list
      */
     void checkPass(List list);
+
+    /**
+     * 查询未在删除状态下的游戏总数
+     * @return
+     */
+    Integer queryCount(Integer check);
 }
