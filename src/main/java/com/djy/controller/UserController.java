@@ -2,7 +2,6 @@ package com.djy.controller;
 
 import com.djy.po.User;
 import com.djy.service.UserService;
-import com.djy.util.FilterUser;
 import com.djy.util.JsonObject;
 import com.djy.util.R;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,7 +80,7 @@ public class UserController {
     }
 
     /**
-     * 发送请求恢复数据
+     * 发送请求恢复删除数据
      * @param ids
      * @return
      */

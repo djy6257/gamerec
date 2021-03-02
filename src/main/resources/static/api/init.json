@@ -43,19 +43,19 @@
       "child": [
         {
           "title": "游戏列表",
-          "href": "page/gameList",
+          "href": "gameList",
           "icon": "fa fa-home",
           "target": "_self"
         },
         {
           "title": "待删游戏",
-          "href": "page/delGame.html",
+          "href": "readyDelGame",
           "icon": "fa fa-gears",
           "target": "_self"
         },
         {
           "title": "待审游戏",
-          "href": "page/check.html",
+          "href": "check",
           "icon": "fa fa-gears",
           "target": "_self"
         }
@@ -69,7 +69,7 @@
       "child": [
         {
           "title": "排行榜",
-          "href": "page/paihang.html",
+          "href": "rank",
           "icon": "fa fa-meetup",
           "target": "_self"
         },

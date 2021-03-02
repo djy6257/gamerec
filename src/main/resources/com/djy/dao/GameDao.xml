@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.djy.dao.GameDao">
+    <insert id="addGame" parameterType="com.djy.po.Game">
+        insert into game(gamename,company,`describe`,score,hot,gamephoto,creatTime,updateTime) values (#{gamename},#{company},#{describe},#{score},#{hot},#{gamephoto},#{creatTime},#{updateTime})
+    </insert>
+    <!--将游戏更改为待删除状态-->
+    <update id="updateReadyDelGameSubmit" parameterType="list">
+        update game set del_flag = 1 where id in
+        <foreach collection="list" item="ids" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+    </update>
+
+    <!--修改游戏信息-->
+    <update id="editGame" parameterType="com.djy.po.Game">
+        update game set gamename=#{gamename},company=#{company},`describe`=#{describe},score=#{score},hot=#{hot},gamephoto=#{gamephoto},updateTime=#{updateTime} where id=#{id}
+    </update>
+
+    <!--恢复游戏数据-->
+    <update id="recoverGameByIds" parameterType="list">
+        update game set del_flag = 0 where id in
+        <foreach collection="list" item="ids" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+    </update>
+
+    <!--通过审核-->
+    <update id="checkPass" parameterType="list">
+        update game set `check`=0 where id in
+        <foreach collection="list" item="ids" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+    </update>
+
+
+    <!--彻底删除游戏信息-->
+    <delete id="deleteGameByIds" parameterType="list">
+        delete from game where id in
+        <foreach collection="list" item="ids" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+    </delete>
+
+    <!--根据条件查询游戏-->
+    <select id="queryGameAll" resultType="com.djy.po.Game" parameterType="hashmap">
+        select * from game
+        <where>
+            <if test="_parameter.del_flag!=null">
+                and del_flag = #{del_flag}
+            </if>
+            <if test="_parameter.check!=null">
+                and `check` = #{check}
+            </if>
+            <if test="_parameter.gamename!=null">
+                and gamename like concat( '%' ,#{gamename}, '%' )
+            </if>
+        </where>
+    </select>
+
+    <!--根据id查询游戏-->
+    <select id="queryGameByID" resultType="com.djy.po.Game" parameterType="integer">
+        select  * from game where id = #{id}
+    </select>
+</mapper>

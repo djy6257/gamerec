@@ -31,14 +31,14 @@
         </foreach>
     </update>
     <!--解除用户封禁-->
-    <update id="recoverBlockedUserById">
+    <update id="recoverBlockedUserById" parameterType="list">
         update user set blocked = 0 where id in
         <foreach collection="list" item="ids" open="(" separator="," close=")">
             #{ids}
         </foreach>
     </update>
     <!--彻底删除用户信息-->
-    <delete id="deleteUserByIds">
+    <delete id="deleteUserByIds" parameterType="list">
         delete from user where id in
         <foreach collection="list" item="ids" open="(" separator="," close=")">
             #{ids}

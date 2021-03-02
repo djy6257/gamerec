@@ -15,8 +15,11 @@ public class Game implements Serializable {
      * describe
      * score
      * hot
-     * creat_time
-     * update_time
+     * gamephoto
+     * del_flag
+     * check
+     * creatTime
+     * updateTime
      */
 
     private Long id;
@@ -25,6 +28,9 @@ public class Game implements Serializable {
     private String describe;
     private Integer score;
     private Integer hot;
+    private String gamephoto;
+    private Integer del_flag;
+    private Integer check;
     private Date creatTime;
     private Date updateTime;
 }
