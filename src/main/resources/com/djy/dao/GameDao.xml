@@ -57,6 +57,10 @@
             <if test="_parameter.gamename!=null">
                 and gamename like concat( '%' ,#{gamename}, '%' )
             </if>
+            <!--对数据进行排序-->
+            <if test="_parameter.rank!=null">
+                order by hot
+            </if>
         </where>
     </select>
 

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ch" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>rank</title>
+    <link rel="stylesheet" href="../lib/layui-v2.5.5/css/layui.css" media="all">
+</head>
+<body>
+<table class="layui-table">
+    <colgroup>
+        <col width="150">
+        <col width="200">
+        <col>
+    </colgroup>
+    <thead>
+    <tr>
+        <th>排名</th>
+        <th>游戏名</th>
+        <th>热度</th>
+        <th>评分</th>
+        <th>创建时间</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="game:${gamelist}" >
+        <td th:text="${gameStat.index+1}">排名</td>
+        <td th:text="${game.getGamename()}">游戏名</td>
+        <td th:text="${game.getHot()}">热度</td>
+        <td th:text="${game.getScore()}">分数</td>
+        <td th:text="${game.creatTime}">创建时间</td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
