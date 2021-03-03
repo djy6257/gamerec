@@ -61,16 +61,7 @@
                     <a href="javascript:;" th:text="${session.user.getUsername()}">管理员</a>
                     <dl class="layui-nav-child">
                         <dd>
-                            <a href="javascript:;" layuimini-content-href="page/user-setting.html" data-title="基本资料" data-icon="fa fa-gears">基本资料<span class="layui-badge-dot"></span></a>
-                        </dd>
-                        <dd>
-                            <a href="javascript:;" layuimini-content-href="page/user-password.html" data-title="修改密码" data-icon="fa fa-gears">修改密码</a>
-                        </dd>
-                        <dd>
-                            <hr>
-                        </dd>
-                        <dd>
-                            <a href="javascript:;" class="login-out">退出登录</a>
+                            <a href="/logOut"  class="login-out">退出登录</a>
                         </dd>
                     </dl>
                 </li>
@@ -155,12 +146,6 @@
                 'layuimini.99php.cn',
                 'layuimini-onepage.99php.cn',
             ],
-        });
-
-        $('.login-out').on("click", function () {
-            layer.msg('退出登录成功', function () {
-                window.location = 'page/login.html';
-            });
         });
     });
 </script>

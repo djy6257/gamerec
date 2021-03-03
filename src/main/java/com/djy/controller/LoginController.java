@@ -92,4 +92,17 @@ public class LoginController {
         return "redirect:index";
     }
 
+
+    /**
+     * 退出功能
+     */
+    @RequestMapping("/logOut")
+    public String logOut(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        //清除session
+        session.invalidate();
+        return "redirect:/login";
+    }
+
+
 }
